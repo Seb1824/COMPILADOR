@@ -1,10 +1,7 @@
 from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Optional
-
 from src.token import Token, TokenType
-
 
 @dataclass
 class DiagnosticEntry:
@@ -47,7 +44,6 @@ class Parser:
 
     def _parse_diagnostic(self, start_index: int) -> tuple[DiagnosticEntry, int] | None:
         """
-        Espera secuencia:
         ARCHIVO LINEA COLUMNA SEVERIDAD MENSAJE_CRUDO TIPO_ERROR [SIMBOLO]
         """
         required = [
