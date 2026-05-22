@@ -52,4 +52,12 @@ if __name__ == "__main__":
     test_archivo_correcto_no_genera_tokens()
     test_archivo_con_error_genera_tokens()
     test_tokens_tienen_valores_no_vacios()
+    
     print("\nTodos los tests pasaron.")
+
+def test_lexer_retorna_desconocido_para_linea_no_parseable():
+    from src.lexer import _tokenizar_linea
+
+    tokens = _tokenizar_linea("linea inventada sin formato gcc")
+    assert len(tokens) == 1
+    assert tokens[0].tipo == TokenType.DESCONOCIDO
