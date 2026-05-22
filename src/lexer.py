@@ -94,7 +94,7 @@ class Lexer:
     def compilar_y_capturar(self) -> str:
         """Ejecuta GCC sobre el archivo y devuelve el stderr completo."""
         resultado = subprocess.run(
-            ["gcc", "-Wall", "-o", "/dev/null", str(self.ruta_archivo)],
+            ["gcc", "-Wall", "-fsyntax-only", str(self.ruta_archivo)],
             capture_output=True,
             text=True
         )
