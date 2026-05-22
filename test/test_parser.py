@@ -71,3 +71,33 @@ def test_parser_procesa_multiples_diagnosticos():
     assert diagnosticos[0].simbolo == ";"
     assert diagnosticos[1].archivo == "b.c"
     assert diagnosticos[1].simbolo is None
+
+
+def test_parser_ignora_tokens_desconocidos_entre_diagnosticos():
+    tokens = [
+        Token(TokenType.DESCONOCIDO, "ruido"),
+        Token(TokenType.ARCHIVO, "x.c"),
+        Token(TokenType.LINEA, "2"),
+        Token(TokenType.COLUMNA, "5"),
+        Token(TokenType.SEVERIDAD, "error"),
+        Token(TokenType.MENSAJE_CRUDO, "msg"),
+        Token(TokenType.TIPO_ERROR, "desconocido"),
+    ]
+
+    diagnosticos = Parser(tokens).parse()
+    assert len(diagnosticos) == 1
+    assert diagnosticos[0].archivo == "x.c"
+
+
+def test_parser_ignora_diagnostico_si_linea_columna_no_son_numericas():
+    tokens = [
+        Token(TokenType.ARCHIVO, "x.c"),
+        Token(TokenType.LINEA, "no_num"),
+        Token(TokenType.COLUMNA, "5"),
+        Token(TokenType.SEVERIDAD, "error"),
+        Token(TokenType.MENSAJE_CRUDO, "msg"),
+        Token(TokenType.TIPO_ERROR, "desconocido"),
+    ]
+
+    diagnosticos = Parser(tokens).parse()
+    assert diagnosticos == []
